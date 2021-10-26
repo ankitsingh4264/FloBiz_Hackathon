@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flobizhackathon.Adapter.QuestionsAdapter
+import com.example.flobizhackathon.Adapter.onClick
 import com.example.flobizhackathon.DebouncingSearch
 import com.example.flobizhackathon.databinding.ActivityMainBinding
 import com.example.flobizhackathon.model.Items
@@ -18,10 +19,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.content.Intent
+import android.net.Uri
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick {
+class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private lateinit var binding: ActivityMainBinding
     private lateinit var manager: LinearLayoutManager
     private lateinit var adapter: QuestionsAdapter
@@ -43,12 +46,6 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick {
         binding.rvItem.layoutManager = manager
         loadData()
         observeViewModel()
-        binding.rvItem.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                DividerItemDecoration.VERTICAL
-            )
-        )
 
         with(binding) {
             rvItem.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -195,6 +192,14 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick {
 
     override fun tagClicked(tag: String) {
         filterData(tag, true)
+    }
+
+    override fun itemClicked(position: Int) {
+        if (position==0) return
+        val url = list[position]?.link
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
     }
 
 }

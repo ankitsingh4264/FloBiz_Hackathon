@@ -63,6 +63,9 @@ class QuestionsAdapter(private val list:List<Items?>,private val context:Context
                 itemView.title.text=item?.title
                 itemView.date.text= item?.creationDate?.let { getDate(it) }
             }
+            itemView.setOnClickListener {
+                (context as onClick).itemClicked(position)
+            }
         }
     }
      private fun getDate(time:Long): String {

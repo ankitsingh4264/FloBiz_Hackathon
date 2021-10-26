@@ -29,6 +29,7 @@ open class Items(
 	var tags: RealmList<String?>? = null,
     @SerializedName( "view_count")
 	var viewCount: Long? = null,
+	var link:String?=null
 
 ):RealmObject()
 

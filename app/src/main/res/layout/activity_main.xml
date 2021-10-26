@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:paddingVertical="10dp"
-	android:background="@color/gray"
+	android:background="@color/white"
 	tools:context=".ui.MainActivity">
 	<com.google.android.material.textview.MaterialTextView
 		android:id="@+id/header_title"
@@ -30,13 +30,16 @@
 
    <SearchView
 	   android:id="@+id/search_bar"
-	   android:queryHint="search you query here"
+	   android:queryHint="Search you query here"
 	   android:layout_width="match_parent"
 	   android:layout_height="wrap_content"
 	   app:layout_constraintTop_toBottomOf="@id/header_title"
 	   app:layout_constraintLeft_toLeftOf="parent"
 	   app:layout_constraintRight_toLeftOf="@id/img_filter"
 	   app:layout_constrainedWidth="true"
+	   android:background="@drawable/search_bg"
+	   android:queryBackground="@android:color/transparent"
+	   android:iconifiedByDefault="false"
 
 
 	   ></SearchView>
@@ -70,6 +73,9 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:id="@+id/pb"
+		android:indeterminate="true"
+		android:indeterminateTintMode="src_atop"
+		android:indeterminateTint="@color/light_purple"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"

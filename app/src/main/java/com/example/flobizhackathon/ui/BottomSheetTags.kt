@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.flobizhackathon.Adapter.TagsAdapter
 import com.example.flobizhackathon.Adapter.onClick
 import com.example.flobizhackathon.databinding.BottomSheetLayoutBinding
@@ -42,7 +44,9 @@ class BottomSheetTags : BottomSheetDialogFragment() , onClick{
         adapter= TagsAdapter(list,this,viewModel.clickedTag)
         binding.rvTags.apply {
             adapter=this@BottomSheetTags.adapter
+            layoutManager=StaggeredGridLayoutManager(2,LinearLayoutManager.VERTICAL)
         }
+
 
     }
     private lateinit var click: bsTagClick
