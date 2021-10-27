@@ -73,11 +73,12 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
                         return@DebouncingSearch
                     }
                     search = false
-                    list.clear()
-                    list.addAll(orgList)
+                    assignOrgListtoRv()
                     adapter.notifyDataSetChanged()
 
                 } else {
+                   assignSelectedTagUi(resources.getString(R.string.all_tags))
+
                     filter=false
                     search = true
                     filterData(it)
@@ -85,6 +86,11 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
             })
         }
 
+    }
+    private fun assignSelectedTagUi(tag: String){
+        selectedTag = tag
+        binding.txtTag.text=selectedTag
+        viewModel.clickedTag=tag
     }
 
 
@@ -115,12 +121,12 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private var search = false
     private var filter = false
     private fun filterData(search: String?) {
+
         val filterList = ArrayList<Items>();
-        val allTags : Boolean = selectedTag.equals(resources.getString(R.string.all_tags))
         CoroutineScope(Dispatchers.Main).launch {
             for (item in orgList) {
                 if (item.tags == null) continue
-                if (allTags || item.tags!!.contains(search) || item.title!!.contains(
+                if ( item.tags!!.contains(search) || item.title!!.contains(
                         search.toString(),
                         true
                     )
@@ -140,6 +146,10 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
             }
 
         }
+    }
+    private fun assignOrgListtoRv(){
+        list.clear()
+        list.addAll(orgList)
     }
 
 
@@ -199,7 +209,11 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     override fun tagClicked(tag: String) {
         binding.txtTag.text = tag.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         selectedTag = tag
-        filterData(tag)
+        if (selectedTag == resources.getString(R.string.all_tags)) {
+            assignOrgListtoRv()
+        }else {
+            filterData(tag)
+        }
     }
 
     override fun itemClicked(position: Int) {
