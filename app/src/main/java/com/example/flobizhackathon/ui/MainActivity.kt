@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Intent
 import android.net.Uri
+import com.example.flobizhackathon.R
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private lateinit var binding: ActivityMainBinding
     private lateinit var manager: LinearLayoutManager
     private lateinit var adapter: QuestionsAdapter
+    private lateinit var selectedTag : String
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
             setTags()
         }
         orgList.add(Items())
+        selectedTag = resources.getString(R.string.all_tags)
         manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = QuestionsAdapter(list, this)
         binding.rvItem.adapter = adapter
@@ -88,7 +91,6 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private fun setTags() {
         lifecycleScope.launch {
             val set = HashSet<String>()
-
             for (item in orgList) {
                 item.tags?.let {
                     for (tag in item.tags!!) {
@@ -100,7 +102,9 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
 
             }
             val temp = ArrayList<String>(set)
-            viewModel.tagList = temp
+            viewModel.tagList.clear()
+            viewModel.tagList.add(resources.getString(R.string.all_tags))
+            viewModel.tagList.addAll(temp)
             BottomSheetTags().show(supportFragmentManager, BottomSheetTags.TAG)
 
 
@@ -112,11 +116,11 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private var filter = false
     private fun filterData(search: String?) {
         val filterList = ArrayList<Items>();
-
+        val allTags : Boolean = selectedTag.equals(resources.getString(R.string.all_tags))
         CoroutineScope(Dispatchers.Main).launch {
             for (item in orgList) {
                 if (item.tags == null) continue
-                if (item.tags!!.contains(search) || item.title!!.contains(
+                if (allTags || item.tags!!.contains(search) || item.title!!.contains(
                         search.toString(),
                         true
                     )
@@ -140,7 +144,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
 
 
     private fun loadData() {
-        if (search) return
+        if (search || !selectedTag.equals(resources.getString(R.string.all_tags))) return
         binding.pb.visibility = View.VISIBLE
         lifecycleScope.launch {
             viewModel.getData()
@@ -194,6 +198,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
 
     override fun tagClicked(tag: String) {
         binding.txtTag.text = tag.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        selectedTag = tag
         filterData(tag)
     }
 
