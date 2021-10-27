@@ -1,10 +1,11 @@
-package com.example.flobizhackathon.Adapter
+package com.example.flobizhackathon.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flobizhackathon.R
 import com.example.flobizhackathon.databinding.ItemBsBinding
+import java.util.*
 
 class TagsAdapter(val list: List<String>,val click: onClick,val clicked:String) : RecyclerView.Adapter<TagsAdapter.ViewHolder>() {
 
@@ -24,9 +25,9 @@ class TagsAdapter(val list: List<String>,val click: onClick,val clicked:String) 
     inner class ViewHolder(val binding:ItemBsBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(tags:String, position: Int) {
-            binding.tvTag.text=tags
-            if(tags.equals(clicked)){
-                binding.tvTag.setBackgroundResource(R.color.gray)
+            binding.tvTag.text= tags.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            if(tags == clicked){
+                binding.tvTag.setBackgroundResource(R.color.light_purple)
             }else{
                 binding.tvTag.setBackgroundResource(R.color.white)
 

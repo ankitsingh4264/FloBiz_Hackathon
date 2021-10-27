@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.flobizhackathon.Adapter.TagsAdapter
-import com.example.flobizhackathon.Adapter.onClick
+import com.example.flobizhackathon.adapter.TagsAdapter
+import com.example.flobizhackathon.adapter.onClick
 import com.example.flobizhackathon.databinding.BottomSheetLayoutBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint

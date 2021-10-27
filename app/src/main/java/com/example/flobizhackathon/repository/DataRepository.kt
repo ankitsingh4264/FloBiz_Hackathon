@@ -1,4 +1,4 @@
-package com.example.flobizhackathon.repo
+package com.example.flobizhackathon.repository
 
 import android.util.Log
 import com.example.flobizhackathon.ApiService
@@ -14,7 +14,7 @@ import java.lang.Exception
 import javax.inject.Inject
 
 
-class Repository @Inject constructor(
+class DataRepository @Inject constructor(
     val apiService: ApiService,
     val realm: Realm
 ) {

@@ -6,11 +6,10 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flobizhackathon.Adapter.QuestionsAdapter
-import com.example.flobizhackathon.Adapter.onClick
+import com.example.flobizhackathon.adapter.QuestionsAdapter
+import com.example.flobizhackathon.adapter.onClick
 import com.example.flobizhackathon.DebouncingSearch
 import com.example.flobizhackathon.databinding.ActivityMainBinding
 import com.example.flobizhackathon.model.Items
@@ -21,7 +20,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 
 @AndroidEntryPoint
@@ -192,6 +193,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     }
 
     override fun tagClicked(tag: String) {
+        binding.txtTag.text = tag.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         filterData(tag)
     }
 
