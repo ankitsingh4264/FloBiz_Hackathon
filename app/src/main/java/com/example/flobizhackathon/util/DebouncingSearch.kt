@@ -1,4 +1,4 @@
-package com.example.flobizhackathon
+package com.example.flobizhackathon.util
 
 import android.util.Log
 import android.widget.SearchView

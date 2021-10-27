@@ -1,4 +1,4 @@
-package com.example.flobizhackathon.di
+package com.example.flobizhackathon.injections
 
 import com.example.flobizhackathon.ApiService
 import dagger.Module

@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingVertical="10dp"
-    android:background="@color/light_purple">
+    android:background="@color/light_purple"
+    android:paddingVertical="10dp">
 
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:backgroundTint="@color/babyblue"
-        app:layout_constraintRight_toRightOf="@id/guideline"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/babyblue"
         app:cardCornerRadius="10dp"
         app:layout_constrainedWidth="true"
-        android:layout_marginRight="2dp"
-        android:layout_height="match_parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="3dp"
+            android:padding="2dp">
 
             <TextView
                 android:id="@+id/t1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_remove_red_eye_24"
                 android:layout_marginTop="12dp"
-                android:text=" Average view count"
+                android:text="@string/average_view_count"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_baseline_remove_red_eye_24"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -43,17 +45,15 @@
                 android:id="@+id/view_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="20"
-                android:layout_marginTop="10dp"
                 android:textColor="#EA0971"
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@+id/t1"
                 app:layout_constraintStart_toStartOf="@+id/t1"
-                app:layout_constraintTop_toBottomOf="@id/t1"
-
-
-                ></TextView>
+                app:layout_constraintTop_toBottomOf="@id/t1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.Guideline
@@ -66,22 +66,24 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card2"
-        android:layout_marginStart="2dp"
-        app:cardCornerRadius="10dp"
-
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:backgroundTint="@color/babyblue"
+        android:padding="2dp"
+        app:cardCornerRadius="10dp"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="2dp">
 
             <TextView
-                android:drawableStart="@drawable/ic_baseline_question_answer_24"
                 android:id="@+id/t2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,6 +92,8 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_baseline_question_answer_24"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -99,22 +103,17 @@
                 android:id="@+id/answer_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="20"
-                android:layout_marginTop="10dp"
                 android:textColor="#FFEA0971"
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@+id/t2"
                 app:layout_constraintStart_toStartOf="@+id/t2"
-                app:layout_constraintTop_toBottomOf="@id/t2"
-
-
-                ></TextView>
+                app:layout_constraintTop_toBottomOf="@id/t2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

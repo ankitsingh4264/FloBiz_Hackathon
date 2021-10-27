@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-import com.example.flobizhackathon.repo.Repository
+import com.example.flobizhackathon.repository.DataRepository
 import kotlinx.coroutines.Job
 
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class MainActivityViewModel @Inject constructor(private val dataRepository: DataRepository) : ViewModel() {
 
     private val _data=MutableLiveData<List<Items?>>()
     val data:LiveData<List<Items?>> = _data
@@ -30,7 +30,7 @@ class MainActivityViewModel @Inject constructor(private val repository: Reposito
 
          job?.join()
          job=viewModelScope.launch {
-            repository.getRemoteData().collect {
+            dataRepository.getRemoteData().collect {
                 if (it.items==null) return@collect
                 for (temp in it.items!!) {
                     Log.d("ankit", "quesid: ${temp?.questionId} ")

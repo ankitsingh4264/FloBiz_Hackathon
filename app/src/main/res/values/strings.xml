@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FloBiz Hackathon</string>
+    <string name="all_tags">All Tags</string>
+    <string name="flobiz_hackathon">FloBiz Hackathon</string>
+    <string name="select_tag">Select Tag</string>
+    <string name="average_view_count">Average view count</string>
+    <string name="python">python</string>
 </resources>

@@ -1,21 +1,17 @@
-package com.example.flobizhackathon.Adapter
+package com.example.flobizhackathon.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.flobizhackathon.R
 import com.example.flobizhackathon.model.Items
 import kotlinx.android.synthetic.main.item_count.view.*
 import kotlinx.android.synthetic.main.item_list.view.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.Filter
-import java.util.logging.LogRecord
 
 class QuestionsAdapter(private val list:List<Items?>,private val context:Context) :
     RecyclerView.Adapter<QuestionsAdapter.ViewHolder>()
