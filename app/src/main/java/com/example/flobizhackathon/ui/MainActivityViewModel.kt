@@ -1,5 +1,6 @@
 package com.example.flobizhackathon.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 import com.example.flobizhackathon.repo.Repository
+import kotlinx.coroutines.Job
 
 
 @HiltViewModel
@@ -21,23 +23,28 @@ class MainActivityViewModel @Inject constructor(private val repository: Reposito
     private val set=HashSet<String>()
     var tagList=ArrayList<String>()
     var clickedTag:String=""
-
-     fun getData(){
+    var job:Job?=null
+    var id=0;
+    suspend fun getData(){
          val list=ArrayList<Items>()
 
-
-         viewModelScope.launch {
+         job?.join()
+         job=viewModelScope.launch {
             repository.getRemoteData().collect {
                 if (it.items==null) return@collect
-                for (temp in it.items!!){
-                    if (!set.contains(temp!!.questionId)){
-                       list.add(temp)
-                        temp.questionId?.let { it1 -> set.add(it1) }
+                for (temp in it.items!!) {
+                    Log.d("ankit", "quesid: ${temp?.questionId} ")
+                    temp?.questionId?.let {
+                        if (!set.contains(it)) {
+                            list.add(temp)
+                           set.add(it)
+                        }
                     }
                 }
                 _data.value=list
             }
         }
     }
+
 
 }

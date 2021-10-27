@@ -27,8 +27,6 @@ class Repository @Inject constructor(
 
 
                 try {
-
-
                     withTimeout(5000) {
                         val data = apiService.getData()
                         emit(data)

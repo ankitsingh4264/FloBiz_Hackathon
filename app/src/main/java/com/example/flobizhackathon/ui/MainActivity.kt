@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 
 
 @AndroidEntryPoint
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
         binding.imgFilter.setOnClickListener {
             setTags()
         }
-        list.add(Items())
+        orgList.add(Items())
         manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = QuestionsAdapter(list, this)
         binding.rvItem.adapter = adapter
@@ -108,13 +109,9 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private var orgList: ArrayList<Items> = ArrayList()
     private var search = false
     private var filter = false
-    private fun filterData(search: String?, searchClear: Boolean = false) {
+    private fun filterData(search: String?) {
         val filterList = ArrayList<Items>();
-        if (searchClear) {
-            filter = true
-            binding.searchBar.setQuery("", false);
-            binding.searchBar.isIconified = true;
-        }
+
         CoroutineScope(Dispatchers.Main).launch {
             for (item in orgList) {
                 if (item.tags == null) continue
@@ -144,22 +141,27 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private fun loadData() {
         if (search) return
         binding.pb.visibility = View.VISIBLE
-        viewModel.getData()
+        lifecycleScope.launch {
+            viewModel.getData()
+        }
     }
+
 
     private fun observeViewModel() {
         viewModel.data.observe(this, Observer {
-            for (temp in it) temp?.let { it1 -> list.add(it1) }
+            for (temp in it) temp?.let { it1 -> orgList.add(it1) }
 
             lifecycleScope.launch {
                 calculateAvg()
-                list[0]?.answerCount = avgAnsCount
-                list[0]?.viewCount = avgViewCount
+                orgList[0].answerCount = avgAnsCount
+                orgList[0].viewCount = avgViewCount
+                list.clear()
+                list.addAll(orgList.filterNotNull())
+
                 withContext(Dispatchers.Main) {
                     adapter.notifyDataSetChanged()
 
                 }
-                orgList.addAll(list.filterNotNull())
                 binding.pb.visibility = View.GONE
 
             }
@@ -170,11 +172,10 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private var avgViewCount = 0L
     private var avgAnsCount = 0L
     fun calculateAvg() {
-        if (list.size == 1) return
+        if (orgList.size == 1) return
         var totViewCount = 0L;
         var totAnsCount = 0L;
-        for (item in list) {
-            if (item == null) continue
+        for (item in orgList) {
             item.viewCount?.let {
                 totViewCount += it
             }
@@ -183,7 +184,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
             }
 
         }
-        val totElement = list.size - 1;
+        val totElement = orgList.size - 1;
         avgViewCount = totViewCount / totElement;
         avgAnsCount = (totAnsCount / totElement)
 
@@ -191,7 +192,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     }
 
     override fun tagClicked(tag: String) {
-        filterData(tag, true)
+        filterData(tag)
     }
 
     override fun itemClicked(position: Int) {
