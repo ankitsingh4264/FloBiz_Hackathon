@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flobizhackathon.adapter.QuestionsAdapter
 import com.example.flobizhackathon.adapter.onClick
-import com.example.flobizhackathon.DebouncingSearch
+import com.example.flobizhackathon.util.DebouncingSearch
 import com.example.flobizhackathon.databinding.ActivityMainBinding
 import com.example.flobizhackathon.model.Items
 import dagger.hilt.android.AndroidEntryPoint
