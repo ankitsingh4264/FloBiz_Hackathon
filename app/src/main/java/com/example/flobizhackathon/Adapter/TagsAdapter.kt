@@ -26,7 +26,9 @@ class TagsAdapter(val list: List<String>,val click: onClick,val clicked:String) 
 
         fun bind(tags:String, position: Int) {
             binding.tvTag.text= tags.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-            if(tags == clicked){
+            if(clicked.isEmpty() && position == 0)
+                binding.tvTag.setBackgroundResource(R.color.light_purple)
+            else if(tags == clicked){
                 binding.tvTag.setBackgroundResource(R.color.light_purple)
             }else{
                 binding.tvTag.setBackgroundResource(R.color.white)
