@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick, onClick {
     private lateinit var selectedTag: String
 
     private val viewModel: MainActivityViewModel by viewModels()
- ///dfigdoighj
+
     private val list = ArrayList<Items?>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -202,11 +202,12 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick, onClick {
     }
 
     override fun tagClicked(tag: String) {
-        binding.txtTag.text = tag.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        binding.txtTag.text =
+            tag.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         selectedTag = tag
         if (selectedTag == resources.getString(R.string.all_tags))
             assignOrgListtoRv()
-         else
+        else
             filterData(tag)
     }
 
