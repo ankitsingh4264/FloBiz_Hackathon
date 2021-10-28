@@ -1,37 +1,36 @@
 package com.example.flobizhackathon.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flobizhackathon.R
 import com.example.flobizhackathon.adapter.QuestionsAdapter
 import com.example.flobizhackathon.adapter.onClick
-import com.example.flobizhackathon.util.DebouncingSearch
 import com.example.flobizhackathon.databinding.ActivityMainBinding
 import com.example.flobizhackathon.model.Items
+import com.example.flobizhackathon.util.DebouncingSearch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.content.Intent
-import android.net.Uri
-import com.example.flobizhackathon.R
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
+class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick, onClick {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var manager: LinearLayoutManager
     private lateinit var adapter: QuestionsAdapter
-    private lateinit var selectedTag : String
+    private lateinit var selectedTag: String
 
     private val viewModel: MainActivityViewModel by viewModels()
  ///dfigdoighj
@@ -45,10 +44,10 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
         }
         orgList.add(Items())
         selectedTag = resources.getString(R.string.all_tags)
-        manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = QuestionsAdapter(list, this)
         binding.rvItem.adapter = adapter
-        binding.rvItem.layoutManager = manager
+        binding.rvItem.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         loadData()
         observeViewModel()
 
@@ -77,9 +76,9 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
                     adapter.notifyDataSetChanged()
 
                 } else {
-                   assignSelectedTagUi(resources.getString(R.string.all_tags))
+                    assignSelectedTagUi(resources.getString(R.string.all_tags))
 
-                    filter=false
+                    filter = false
                     search = true
                     filterData(it)
                 }
@@ -87,10 +86,11 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
         }
 
     }
-    private fun assignSelectedTagUi(tag: String){
+
+    private fun assignSelectedTagUi(tag: String) {
         selectedTag = tag
-        binding.txtTag.text=selectedTag
-        viewModel.clickedTag=tag
+        binding.txtTag.text = selectedTag
+        viewModel.clickedTag = tag
     }
 
 
@@ -99,18 +99,14 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
             val set = HashSet<String>()
             for (item in orgList) {
                 item.tags?.let {
-                    for (tag in item.tags!!) {
-                        if (tag != null) {
-                            set.add(tag)
-                        }
-                    }
+                    for (tag in it)
+                        tag?.let { set.add(it) }
                 }
 
             }
-            val temp = ArrayList<String>(set)
             viewModel.tagList.clear()
             viewModel.tagList.add(resources.getString(R.string.all_tags))
-            viewModel.tagList.addAll(temp)
+            viewModel.tagList.addAll(ArrayList<String>(set))
             BottomSheetTags().show(supportFragmentManager, BottomSheetTags.TAG)
 
 
@@ -125,13 +121,13 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
         val filterList = ArrayList<Items>();
         CoroutineScope(Dispatchers.Main).launch {
             for (item in orgList) {
-                if (item.tags == null) continue
-                if ( item.tags!!.contains(search) || item.title!!.contains(
-                        search.toString(),
-                        true
+                item.tags?.let {
+                    if (it.contains(search) || item.title?.contains(
+                            search.toString(),
+                            true
+                        ) == true
                     )
-                ) {
-                    filterList.add(item)
+                        filterList.add(item)
                 }
             }
             list.clear()
@@ -147,7 +143,8 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
 
         }
     }
-    private fun assignOrgListtoRv(){
+
+    private fun assignOrgListtoRv() {
         list.clear()
         list.addAll(orgList)
     }
@@ -199,25 +196,22 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
             }
 
         }
-        val totElement = orgList.size - 1;
-        avgViewCount = totViewCount / totElement;
-        avgAnsCount = (totAnsCount / totElement)
-
+        avgViewCount = totViewCount / (orgList.size - 1);
+        avgAnsCount = (totAnsCount / (orgList.size - 1))
 
     }
 
     override fun tagClicked(tag: String) {
         binding.txtTag.text = tag.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         selectedTag = tag
-        if (selectedTag == resources.getString(R.string.all_tags)) {
+        if (selectedTag == resources.getString(R.string.all_tags))
             assignOrgListtoRv()
-        }else {
+         else
             filterData(tag)
-        }
     }
 
     override fun itemClicked(position: Int) {
-        if (position==0) return
+        if (position == 0) return
         val url = list[position]?.link
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
