@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), BottomSheetTags.bsTagClick , onClick {
     private lateinit var selectedTag : String
 
     private val viewModel: MainActivityViewModel by viewModels()
-
+ ///dfigdoighj
     private val list = ArrayList<Items?>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
