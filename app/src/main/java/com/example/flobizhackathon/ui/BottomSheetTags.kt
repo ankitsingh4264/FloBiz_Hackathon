@@ -17,38 +17,39 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
 @AndroidEntryPoint
-class BottomSheetTags : BottomSheetDialogFragment() , onClick{
+class BottomSheetTags : BottomSheetDialogFragment(), onClick {
     private lateinit var binding: BottomSheetLayoutBinding
-    private val viewModel : MainActivityViewModel by activityViewModels()
+    private val viewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding=
-        BottomSheetLayoutBinding.inflate(inflater, container, false)
+        binding =
+            BottomSheetLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     companion object {
         const val TAG = "BottomSheetTags"
     }
-  private lateinit var list: List<String>
+
+    private lateinit var list: List<String>
     private lateinit var adapter: TagsAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list=viewModel.tagList
-        Log.d("ankit", "onCreateF: $viewModel")
+        list = viewModel.tagList
 
-        adapter= TagsAdapter(list,this,viewModel.clickedTag)
+        adapter = TagsAdapter(list, this, viewModel.clickedTag)
         binding.rvTags.apply {
-            adapter=this@BottomSheetTags.adapter
-            layoutManager=StaggeredGridLayoutManager(2,LinearLayoutManager.VERTICAL)
+            adapter = this@BottomSheetTags.adapter
+            layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         }
 
 
     }
+
     private lateinit var click: bsTagClick
 
     override fun onAttach(context: Context) {
@@ -56,17 +57,18 @@ class BottomSheetTags : BottomSheetDialogFragment() , onClick{
         try {
 
             click = context as bsTagClick
-        }catch (ex:Exception){
-            Log.d(TAG, "onAttach: ${ex.message}")
+        } catch (ex: Exception) {
         }
     }
+
     override fun itemClicked(position: Int) {
         this.dismiss()
-        viewModel.clickedTag=list[position]
+        viewModel.clickedTag = list[position]
         click.tagClicked(list[position])
 
     }
-    interface bsTagClick{
-        fun tagClicked(tag :String)
+
+    interface bsTagClick {
+        fun tagClicked(tag: String)
     }
 }
